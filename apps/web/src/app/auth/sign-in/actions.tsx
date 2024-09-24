@@ -1,14 +1,41 @@
 'use server'
 
+import { HTTPError } from 'ky'
+import { z } from 'zod'
+
 import { signInWithPassword } from '@/http/sign-in-with-password'
 
+const signInSchema = z.object({
+  email: z
+    .string()
+    .email({ message: 'Please, provide a valid e-mail address' }),
+  password: z.string().min(1, { message: 'Please, provide your password' }),
+})
+
 export async function singInWithEmailAndPassword(data: FormData) {
-  const { email, password } = Object.fromEntries(data)
+  const result = signInSchema.safeParse(Object.fromEntries(data))
 
-  const result = await signInWithPassword({
-    email: String(email),
-    password: String(password),
-  })
+  if (!result.success) {
+    const errors = result.error.flatten().fieldErrors
+    return { success: false, message: null, errors }
+  }
 
-  console.log(result)
+  const { email, password } = result.data
+
+  try {
+    const { token } = await signInWithPassword({
+      email,
+      password,
+    })
+
+    console.log(token)
+  } catch (error) {
+    if (error instanceof HTTPError) {
+      const { message } = await error.response.json()
+
+      return { success: false, message, errors: null }
+    }
+    return { success: false, message: 'unexpect', errors: null }
+  }
+  return { success: false, message: null, errors: null }
 }
