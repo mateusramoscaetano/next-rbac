@@ -7,10 +7,12 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
 
+import { singInWithEmailAndPassword } from './actions'
+
 export default function SignInPage() {
   return (
     <>
-      <form className='space-y-4'>
+      <form action={singInWithEmailAndPassword} className='space-y-4'>
         <div className='space-y-1'>
           <Label htmlFor='email'>E-mail</Label>
           <Input name='email' type='email' id='email' />
@@ -29,6 +31,9 @@ export default function SignInPage() {
 
         <Button type='submit' className='w-full'>
           Sign in with e-mail
+        </Button>
+        <Button variant={'link'} className='w-full' size={'sm'} asChild>
+          <Link href={'/auth/sign-in'}>Create new account</Link>
         </Button>
         <Separator />
         <Button variant={'outline'} className='w-full'>
