@@ -1,11 +1,12 @@
+import { env } from '@saas/env'
 import { FastifyInstance } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
+import { URL } from 'url'
 import z from 'zod'
 
-import { URL } from 'url'
-import { BadRequestError } from '../_errors/bad-request-error'
 import { prisma } from '@/lib/prisma'
-import { env } from '@saas/env'
+
+import { BadRequestError } from '../_errors/bad-request-error'
 
 export async function authenticateWithGithub(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().post(
@@ -46,6 +47,9 @@ export async function authenticateWithGithub(app: FastifyInstance) {
       })
 
       const githubAccessTokenData = await githubAccessTokenResponse.json()
+      console.log(githubAccessTokenData)
+
+      console.log('githubAccessTokenData', githubAccessTokenData)
 
       const { access_token: githubAccessToken } = z
         .object({
@@ -62,7 +66,6 @@ export async function authenticateWithGithub(app: FastifyInstance) {
       })
 
       const githubUserData = await githubUserResponse.json()
-      console.log(githubUserData)
 
       const {
         id: githubId,

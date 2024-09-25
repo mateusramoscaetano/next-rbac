@@ -13,42 +13,46 @@ import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
 import { useFormState } from '@/hooks/use-form-state'
 
-import { singInWithEmailAndPassword } from './actions'
+import { signInWithGithub, singInWithEmailAndPassword } from './actions'
 
 export function SignInForm() {
   const router = useRouter()
+
   const [{ errors, message, success }, handleSubmit, isPending] = useFormState(
     singInWithEmailAndPassword,
     () => {
-      console.log('entrou')
       router.push('/')
     },
   )
 
   return (
-    <>
+    <div className='space-y-4'>
       <form onSubmit={handleSubmit} className='space-y-4'>
         {success === false && message && (
-          <Alert variant={'destructive'}>
+          <Alert variant='destructive'>
             <AlertTriangle className='size-4' />
-            <AlertTitle>Sign-in failed!</AlertTitle>
+            <AlertTitle>Sign in failed!</AlertTitle>
             <AlertDescription>
               <p>{message}</p>
             </AlertDescription>
           </Alert>
         )}
+
         <div className='space-y-1'>
           <Label htmlFor='email'>E-mail</Label>
           <Input name='email' type='email' id='email' />
+
           {errors?.email && (
             <p className='text-xs font-medium text-red-500 dark:text-red-400'>
               {errors.email[0]}
             </p>
           )}
         </div>
+
         <div className='space-y-1'>
           <Label htmlFor='password'>Password</Label>
           <Input name='password' type='password' id='password' />
+
           {errors?.password && (
             <p className='text-xs font-medium text-red-500 dark:text-red-400'>
               {errors.password[0]}
@@ -56,35 +60,34 @@ export function SignInForm() {
           )}
 
           <Link
-            href={'/auth/forgot-password'}
-            className='text-xs font-medium text-muted-foreground hover:underline'
+            href='/auth/forgot-password'
+            className='text-xs font-medium text-foreground hover:underline'
           >
             Forgot your password?
           </Link>
         </div>
 
-        <Button disabled={isPending} type='submit' className='w-full'>
+        <Button className='w-full' type='submit' disabled={isPending}>
           {isPending ? (
             <Loader2 className='size-4 animate-spin' />
           ) : (
-            <span>Sign in with e-mail</span>
+            'Sign in with e-mail'
           )}
         </Button>
-        <Button variant={'link'} className='w-full' size={'sm'} asChild>
-          <Link href={'/auth/sign-in'}>Create new account</Link>
+
+        <Button className='w-full' variant='link' size='sm' asChild>
+          <Link href='/auth/sign-up'>Create new account</Link>
         </Button>
-        <Separator />
-        <Button variant={'outline'} className='w-full'>
-          <Image
-            src={githubIcon}
-            width={16}
-            height={16}
-            className='mr-2 size-4 dark:invert'
-            alt=''
-          />
+      </form>
+
+      <Separator />
+
+      <form action={signInWithGithub}>
+        <Button type='submit' className='w-full' variant='outline'>
+          <Image src={githubIcon} alt='' className='mr-2 size-4 dark:invert' />
           Sign in with GitHub
         </Button>
       </form>
-    </>
+    </div>
   )
 }

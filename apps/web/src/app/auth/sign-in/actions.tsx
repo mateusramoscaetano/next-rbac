@@ -2,6 +2,7 @@
 
 import { HTTPError } from 'ky'
 import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
 import { z } from 'zod'
 
 import { signInWithPassword } from '@/http/sign-in-with-password'
@@ -46,4 +47,15 @@ export async function singInWithEmailAndPassword(data: FormData) {
     }
   }
   return { success: true, message: null, errors: null }
+}
+
+export async function signInWithGithub() {
+  const githubSignInURL = new URL('login/oauth/authorize', 'https://github.com')
+  githubSignInURL.searchParams.set('client_id', 'Ov23ctu2HH5PrMSiXh7Q')
+  githubSignInURL.searchParams.set(
+    'redirect_uri',
+    'http://localhost:3000/api/auth/callback',
+  )
+  githubSignInURL.searchParams.set('scope', 'user')
+  redirect(githubSignInURL.toString())
 }
