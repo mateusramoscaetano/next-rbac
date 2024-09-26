@@ -13,7 +13,8 @@ import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
 import { useFormState } from '@/hooks/use-form-state'
 
-import { signInWithGithub, singInWithEmailAndPassword } from './actions'
+import { signInWithGithub } from '../actions'
+import { singInWithEmailAndPassword } from './actions'
 
 export function SignInForm() {
   const router = useRouter()
