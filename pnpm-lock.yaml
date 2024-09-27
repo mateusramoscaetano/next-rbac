@@ -102,6 +102,9 @@ importers:
       '@saas/auth':
         specifier: workspace:*
         version: link:../../packages/auth
+      '@saas/env':
+        specifier: workspace:*
+        version: link:../../packages/env
       class-variance-authority:
         specifier: ^0.7.0
         version: 0.7.0
@@ -142,9 +145,6 @@ importers:
         specifier: ^3.23.8
         version: 3.23.8
     devDependencies:
-      '@saas/env':
-        specifier: workspace:*
-        version: link:../../packages/env
       '@saas/eslint-config':
         specifier: workspace:*
         version: link:../../config/eslint-config
@@ -163,6 +163,9 @@ importers:
       '@types/react-dom':
         specifier: ^18
         version: 18.3.0
+      dotenv-cli:
+        specifier: ^7.4.2
+        version: 7.4.2
       postcss:
         specifier: ^8
         version: 8.4.47
