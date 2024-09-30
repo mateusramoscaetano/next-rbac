@@ -21,6 +21,5 @@ export async function getProjects(org: string) {
     .get(`organization/${org}/projects`)
     .json<GetProjectsResponse>()
 
-  console.log(result)
   return result
 }
