@@ -7,6 +7,7 @@ import { ability } from '@/auth/auth'
 import { OrganizationSwitcher } from './organization-switcher'
 import { ProfileButton } from './profile-button'
 import { ToggleTheme } from './theme/toggle-theme'
+import { Separator } from './ui/separator'
 
 export async function Header() {
   const permissions = await ability()
@@ -22,8 +23,9 @@ export async function Header() {
           {permissions?.can('get', 'Project') && <p>projetos</p>}
         </div>
         <div className='flex items-center gap-8'>
-          <ProfileButton />
           <ToggleTheme />
+          <Separator orientation='vertical' className='h-4 text-border' />
+          <ProfileButton />
         </div>
       </div>
     </>
