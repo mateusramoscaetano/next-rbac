@@ -1,9 +1,11 @@
-import { auth } from '@/http/middlewares/auth'
-import { prisma } from '@/lib/prisma'
 import { FastifyInstance } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
 import z from 'zod'
+
+import { auth } from '@/http/middlewares/auth'
+import { prisma } from '@/lib/prisma'
 import { getUserPermissions } from '@/utils/get-user-permissions'
+
 import { UnauthorizedError } from '../_errors/unauthorized-error'
 
 export async function getProjects(app: FastifyInstance) {
@@ -11,7 +13,7 @@ export async function getProjects(app: FastifyInstance) {
     .withTypeProvider<ZodTypeProvider>()
     .register(auth)
     .get(
-      '/organization/:slug/projects/',
+      '/organization/:slug/projects',
       {
         schema: {
           tags: ['projects'],
